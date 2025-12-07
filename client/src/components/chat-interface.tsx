@@ -43,7 +43,7 @@ export function ChatInterface({ profile }: ChatInterfaceProps) {
         conversationId,
         profile: messages.length === 0 ? profile : undefined,
       });
-      return response as ChatResponse;
+      return (await response.json()) as ChatResponse;
     },
     onSuccess: (data) => {
       setError(null);
