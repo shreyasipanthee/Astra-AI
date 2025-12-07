@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { chatRequestSchema } from "@shared/schema";
-import { generateAstraResponse } from "./openai";
+import { generateAstraResponse } from "./response-engine";
 import { randomUUID } from "crypto";
 import { z } from "zod";
 
@@ -68,9 +68,9 @@ export async function registerRoutes(
         conversationHistory.push({ role: "user", content: message });
       }
 
-      // Generate Astra's response
+      // Generate Astra's response using rule-based engine
       const profileContext = storedProfile || profile;
-      const astraContent = await generateAstraResponse(
+      const astraContent = generateAstraResponse(
         conversationHistory,
         profileContext ? {
           gradeLevel: profileContext.gradeLevel,
